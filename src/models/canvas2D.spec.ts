@@ -98,4 +98,24 @@ describe('canvas2D', () => {
     expect(fakeCanvasRenderingContext2D.movedTo()).toEqual({x: 0, y: 0});
     expect(fakeCanvasRenderingContext2D.linedTo()).toEqual({x: 0, y: 0});
   });
+
+  it('clear canvas', () => {
+    canvas2D.start();
+    canvas.emit('mousedown');
+    canvas.emit('mousemove');
+    canvas.emit('mouseup');
+
+    canvas2D.clear();
+
+    expect(canvas2D.isDrawing()).toBeFalsy();
+  });
+
+  it('canvas to data URL', () => {
+    canvas2D.start();
+    canvas.emit('mousedown');
+    canvas.emit('mousemove');
+    canvas.emit('mouseup');
+
+    expect(canvas2D.toDataURL()).toContain('image');
+  });
 });

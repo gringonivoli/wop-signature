@@ -1,4 +1,4 @@
-import { Component, Prop, h, Element } from '@stencil/core';
+import { Component, Prop, h, Element, Method, Event, EventEmitter } from '@stencil/core';
 import { Canvas2D } from '../../models/canvas2D';
 
 @Component({
@@ -8,12 +8,30 @@ import { Canvas2D } from '../../models/canvas2D';
 export class WopSignature {
 
   @Element() hostHtmlElement: HTMLElement;
+  @Event({ eventName: 'wopSignature:cleared' })
+  drawCleared: EventEmitter<void>;
+  @Event({ eventName: 'wopSignature:finished' })
+  drawFinished: EventEmitter<string>;
+  private _canvas: Canvas2D;
 
   componentDidLoad() {
-    new Canvas2D(this._canvas().getContext('2d')).start();
+    this._canvas = new Canvas2D(this._canvasElement().getContext('2d'));
+    this._canvas.start();
   }
 
-  _canvas(): HTMLCanvasElement {
+  @Method()
+  async clear() {
+    this._canvas.clear();
+    this.drawCleared.emit();
+  }
+
+  @Method()
+  async finish() {
+    this.drawFinished.emit(this._canvas.toDataURL());
+    await this.clear();
+  }
+
+  _canvasElement(): HTMLCanvasElement {
     return this.hostHtmlElement.shadowRoot.querySelector('canvas');
   }
 

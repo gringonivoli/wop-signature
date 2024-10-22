@@ -54,4 +54,12 @@ export class Canvas2D {
   private _stopDrawing() {
     this._drawing = false;
   }
+
+  toDataURL() {
+    return this._canvasContext.canvas.toDataURL();
+  }
+
+  clear() {
+    this._canvasContext.clearRect(0, 0, this._canvasContext.canvas.width, this._canvasContext.canvas.height);
+  }
 }

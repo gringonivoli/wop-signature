@@ -25,4 +25,6 @@ export class FakeCanvasRenderingContext2D {
   linedTo() {
     return this.movedTo();
   }
+
+  clearRect() {}
 }

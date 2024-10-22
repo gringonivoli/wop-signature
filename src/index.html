@@ -10,5 +10,36 @@
   </head>
   <body>
     <wop-signature></wop-signature>
+    <button type="button" id="finish">Finish</button>
+    <button type="button" id="clear">Clear</button>
+    <h4>Image</h4>
+    <div id="imageContainer">
+    </div>
+    <script>
+      window.onload = () => {
+        const wopSignature = document.querySelector('wop-signature');
+
+        document.querySelector('#finish').addEventListener('click', () => {
+          wopSignature.finish();
+        });
+
+        document.querySelector('#clear').addEventListener('click', () => {
+          wopSignature.clear();
+        });
+
+        document.addEventListener('wopSignature:finished', (event) => {
+          const imageContainer = document.querySelector('#imageContainer');
+          imageContainer.innerHTML = "";
+          const imgElement = document.createElement('img');
+          imgElement.src = event.detail;
+          imageContainer.appendChild(imgElement);
+          console.log('signature finished', event.detail);
+        });
+
+        document.addEventListener('wopSignature:cleared', (event) => {
+          console.log('signature cleared');
+        });
+      };
+    </script>
   </body>
 </html>
